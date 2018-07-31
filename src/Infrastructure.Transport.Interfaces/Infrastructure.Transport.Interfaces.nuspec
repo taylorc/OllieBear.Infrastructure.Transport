@@ -2,10 +2,10 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
       <id>Vprc.Infrastructure.Transport.Interfaces</id>
-    <version>1.0.0</version>
-    <authors>HSD</authors>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Transport Interfaces module</description>
-    <copyright>Copyright © 2018</copyright>
+      <version>1.0.0</version>
+      <authors>HSD</authors>
+      <requireLicenseAcceptance>false</requireLicenseAcceptance>
+      <description>Transport Interfaces module</description>
+      <copyright>Copyright © 2018</copyright>
     </metadata>
 </package>
