@@ -4,12 +4,13 @@ using System.Threading.Tasks;
 using Infrastructure.Logging;
 using Infrastructure.Serialization.Interfaces;
 using Infrastructure.Transport.Interfaces;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
 namespace Infrastructure.Transport.RabbitMQ
 {
-    public class Consumer : IConsumer, IDisposable
+    public class Consumer : IConsumer
     {
         private readonly IMessageHandler _messageHandler;
         private readonly ISerializer _serializer;
@@ -23,12 +24,12 @@ namespace Infrastructure.Transport.RabbitMQ
             ISerializer serializer,
             ILog logger,
             IChannelFactory channelFactory,
-            TransportConfigurationOptions transportConfigurationOptions)
+            IOptions<TransportConfigurationOptions> transportConfigurationOptionsAccessor)
         {
             _messageHandler = messageHandler;
             _serializer = serializer;
             _logger = logger;
-            _transportConfigurationOptions = transportConfigurationOptions;
+            _transportConfigurationOptions = transportConfigurationOptionsAccessor.Value;
             _channel = channelFactory.CreateChannel();
         }
 
@@ -40,7 +41,7 @@ namespace Infrastructure.Transport.RabbitMQ
                 var body = ea.Body;
                 var properties = ea.BasicProperties;
 
-                var message = Encoding.UTF8.GetString(body);
+                var message = Encoding.Default.GetString(body);
                 _logger.Info($"[CorrelationId={properties.CorrelationId}] " +
                              $"[Queue={_transportConfigurationOptions.QueueName}] " +
                              $"[MessageText=Message Received:{message}]");

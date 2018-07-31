@@ -3,6 +3,7 @@ using Infrastructure.Logging;
 using Infrastructure.Logging.Extensions;
 using Infrastructure.Serialization.Interfaces;
 using Infrastructure.Transport.Interfaces;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Framing;
 
@@ -19,12 +20,12 @@ namespace Infrastructure.Transport.RabbitMQ
         public Producer(
             ISerializer serializer, 
             ILog logger, 
-            IChannelFactory channelFactory, 
-            TransportConfigurationOptions transportConfigurationOptions)
+            IChannelFactory channelFactory,
+            IOptions<TransportConfigurationOptions> transportConfigurationOptionsAccessor)
         {
             _serializer = serializer;
             _logger = logger;
-            _transportConfigurationOptions = transportConfigurationOptions;
+            _transportConfigurationOptions = transportConfigurationOptionsAccessor.Value;
             _channel = channelFactory.CreateChannel();
         }
 
@@ -49,7 +50,7 @@ namespace Infrastructure.Transport.RabbitMQ
 
                 _channel.BasicPublish(
                     exchange: "",
-                    routingKey: "",
+                    routingKey: _transportConfigurationOptions.QueueName,
                     basicProperties: basicProperties,
                     body: messageBody);
 

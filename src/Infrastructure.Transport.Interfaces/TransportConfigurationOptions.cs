@@ -9,5 +9,11 @@
         public bool Durable { get; set; }
 
         public long MaxMessageSize { get; set; }
+
+        public string VirtualHostName { get; set; }
+
+        public string UserName { get; set; }
+
+        public string Password { get; set; }
     }
 }
