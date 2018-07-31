@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Transport.Interfaces", "Infrastructure.Transport.Interfaces\Infrastructure.Transport.Interfaces.csproj", "{19DEA1B0-0460-4B57-9D75-7C5055D03160}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Transport.RabbitMQ", "Infrastructure.Transport.RabbitMQ\Infrastructure.Transport.RabbitMQ.csproj", "{76731C7C-E439-47C3-BF66-D3A312EAD274}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Transport.RabbitMQ.DependencyInjection", "Infrastructure.Transport.RabbitMQ.DependencyInjection\Infrastructure.Transport.RabbitMQ.DependencyInjection.csproj", "{1C1119E6-A845-4EEA-AF74-6D16CAFCBF11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{19DEA1B0-0460-4B57-9D75-7C5055D03160}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19DEA1B0-0460-4B57-9D75-7C5055D03160}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19DEA1B0-0460-4B57-9D75-7C5055D03160}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76731C7C-E439-47C3-BF66-D3A312EAD274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76731C7C-E439-47C3-BF66-D3A312EAD274}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76731C7C-E439-47C3-BF66-D3A312EAD274}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76731C7C-E439-47C3-BF66-D3A312EAD274}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C1119E6-A845-4EEA-AF74-6D16CAFCBF11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C1119E6-A845-4EEA-AF74-6D16CAFCBF11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C1119E6-A845-4EEA-AF74-6D16CAFCBF11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C1119E6-A845-4EEA-AF74-6D16CAFCBF11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
