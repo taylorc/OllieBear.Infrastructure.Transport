@@ -35,7 +35,6 @@ namespace Infrastructure.Transport.Tests.Unit
                 Services
                     .AddSingleton<IMessageHandler, MessageHandler>();
 
-
                 Services.AddSerilogLogging();
 
                 Services.AddRabbitMqService();
