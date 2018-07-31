@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Infrastructure.Logging;
-using Infrastructure.Serialization.Interfaces;
 using Infrastructure.Transport.Interfaces;
 using Infrastructure.Transport.Interfaces.Options;
 using Microsoft.Extensions.Options;
@@ -14,10 +12,8 @@ namespace Infrastructure.Transport.RabbitMQ
         private readonly IDictionary<string, IProducer> _producers;
 
         public Topology(
-            IMessageHandler messageHandler,
-            IChannelFactory channelFactory,
-            ISerializer serializer,
-            ILog logger,
+            Func<QueueConfigurationOptions, IConsumer> consumerFunc,
+            Func<QueueConfigurationOptions, IProducer> producerFunc,
             IOptions<TransportConfigurationOptions> transportConfigurationOptionsAccessor
             )
         {
@@ -26,16 +22,16 @@ namespace Infrastructure.Transport.RabbitMQ
             _consumers = new Dictionary<string, IConsumer>();
             _producers = new Dictionary<string, IProducer>();
 
-            foreach (var item in transportConfigurationOptions.ConsumerQueues)
+            foreach (var queue in transportConfigurationOptions.ConsumerQueues)
             {
-                var options = item.Options;
-                _consumers.Add(item.Key, new Consumer(messageHandler, serializer, logger, channelFactory, options));
+                var options = queue.Options;
+                _consumers.Add(queue.Key, consumerFunc(options));
             }
 
-            foreach (var item in transportConfigurationOptions.ProducerQueues)
+            foreach (var queue in transportConfigurationOptions.ProducerQueues)
             {
-                var options = item.Options;
-                _producers.Add(item.Key, new Producer(serializer, logger, channelFactory, options));
+                var options = queue.Options;
+                _producers.Add(queue.Key, producerFunc(options));
             }
         }
 

@@ -30,7 +30,7 @@ namespace Infrastructure.Transport.RabbitMQ
                 queue: options.QueueName,
                 durable: options.Durable,
                 exclusive: false,
-                autoDelete: true,
+                autoDelete: false,
                 arguments: null);
 
             return channel;
