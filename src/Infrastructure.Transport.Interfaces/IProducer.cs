@@ -1,6 +1,8 @@
-﻿namespace Infrastructure.Transport.Interfaces
+﻿using System;
+
+namespace Infrastructure.Transport.Interfaces
 {
-    public interface IProducer
+    public interface IProducer : IDisposable
     {
         string Publish<T>(T msg);
     }

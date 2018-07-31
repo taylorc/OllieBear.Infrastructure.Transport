@@ -9,9 +9,7 @@ namespace Infrastructure.Transport.RabbitMQ.DependencyInjection
         {
             services.AddTransient<IChannelFactory, ChannelFactory>();
 
-            services.AddTransient<IConsumer, Consumer>();
-
-            services.AddTransient<IProducer, Producer>();
+            services.AddSingleton<ITopology, Topology>();
 
             return services;
         }

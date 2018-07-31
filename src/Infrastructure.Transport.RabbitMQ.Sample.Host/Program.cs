@@ -4,6 +4,7 @@ using Infrastructure.Logging.Serilog.DependencyInjection;
 using Infrastructure.Serialization;
 using Infrastructure.Serialization.Interfaces;
 using Infrastructure.Transport.Interfaces;
+using Infrastructure.Transport.Interfaces.Options;
 using Infrastructure.Transport.RabbitMQ.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,9 +30,6 @@ namespace Infrastructure.Transport.RabbitMQ.Sample.Host
                 .AddSerilogLogging();
 
             services
-                .AddRabbitMqService();
-
-            services
                 .AddTransient<IService, Service>();
 
             services
@@ -39,6 +37,9 @@ namespace Infrastructure.Transport.RabbitMQ.Sample.Host
 
             services
                 .AddSingleton<IMessageHandler, MessageHandler>();
+
+            services
+                .AddRabbitMqService();
 
             var serviceProvider = services.BuildServiceProvider();
 

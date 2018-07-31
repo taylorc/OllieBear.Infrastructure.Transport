@@ -2,52 +2,60 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Infrastructure.Transport.Interfaces;
+using Infrastructure.Transport.RabbitMQ.Sample.Host.Definitions;
 
 namespace Infrastructure.Transport.RabbitMQ.Sample.Host
 {
     internal class Service : IService
     {
-        private readonly IConsumer _consumer;
-        private readonly IProducer _producer;
+        private readonly ITopology _topology;
 
         public Service(
-            IConsumer consumer,
-            IProducer producer)
+            ITopology topology)
         {
-            _consumer = consumer;
-            _producer = producer;
+            _topology = topology;
         }
 
         public void Start()
         {
+            var blueProducer = _topology.GetProducer("TestQueueFirst");
+            var greenProducer = _topology.GetProducer("TestQueueSecond");
+
             for (var i = 0; i < 5; i++)
             {
-                var testServiceBusCommand = new TestQueueCommand
+                var testServiceBusCommand = new BlueCommand
                 { 
-                    SampleInt = 1,
-                    SampleText = "Test Command",
-                    SampleGuid = Guid.NewGuid(),
-                    SampleDate = DateTime.Now
+                    SampleInt = 3,
+                    SampleDateTime = DateTime.Now
                 };
 
-                Console.WriteLine("Sending test command");
-
-                var correlationId = _producer.Publish(testServiceBusCommand);
-
-                Console.WriteLine($"Queue responded with correlation Id: [{correlationId}]");
+                blueProducer.Publish(testServiceBusCommand);
             }
 
-            Thread.Sleep(5000);
+            for (var i = 0; i < 2; i++)
+            {
+                var testServiceBusCommand = new GreenCommand
+                {
+                    SampleGuid = Guid.NewGuid(),
+                    SampleString = "Test String"
+                };
 
-            _consumer.StartConsuming()
-                .ContinueWith(
-                    t => Console.WriteLine(t?.Exception?.ToString()),
-                    TaskContinuationOptions.OnlyOnFaulted);
+                greenProducer.Publish(testServiceBusCommand);
+            }
+
+            Thread.Sleep(2000);
+
+            foreach (var consumer in _topology.GetConsumers())
+            {
+                consumer.StartConsuming()
+                    .ContinueWith(
+                        t => Console.WriteLine(t?.Exception?.ToString()),
+                        TaskContinuationOptions.OnlyOnFaulted);
+            }
         }
 
         public void Stop()
         {
-            _consumer.Dispose();
         }
     }
 }

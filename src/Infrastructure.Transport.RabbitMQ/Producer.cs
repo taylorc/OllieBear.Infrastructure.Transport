@@ -1,32 +1,32 @@
 ﻿using System;
+using System.Text;
 using Infrastructure.Logging;
 using Infrastructure.Logging.Extensions;
 using Infrastructure.Serialization.Interfaces;
 using Infrastructure.Transport.Interfaces;
-using Microsoft.Extensions.Options;
+using Infrastructure.Transport.Interfaces.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Framing;
 
 namespace Infrastructure.Transport.RabbitMQ
 {
-    public class Producer : IProducer, IDisposable
+    public class Producer : IProducer
     {
         private readonly ISerializer _serializer;
         private readonly ILog _logger;
-        private readonly TransportConfigurationOptions _transportConfigurationOptions;
-
+        private readonly QueueConfigurationOptions _queueConfigurationOptions;
         private readonly IModel _channel;
 
         public Producer(
-            ISerializer serializer, 
-            ILog logger, 
+            ISerializer serializer,
+            ILog logger,
             IChannelFactory channelFactory,
-            IOptions<TransportConfigurationOptions> transportConfigurationOptionsAccessor)
+            QueueConfigurationOptions queueConfigurationOptions)
         {
             _serializer = serializer;
             _logger = logger;
-            _transportConfigurationOptions = transportConfigurationOptionsAccessor.Value;
-            _channel = channelFactory.CreateChannel();
+            _queueConfigurationOptions = queueConfigurationOptions;
+            _channel = channelFactory.CreateChannel(queueConfigurationOptions);
         }
 
         public string Publish<T>(T msg)
@@ -36,21 +36,19 @@ namespace Infrastructure.Transport.RabbitMQ
                 var correlationId = Guid.NewGuid().ToString();
                 var messageBody = _serializer.ToPayload(msg);
 
-                if (messageBody.Length > _transportConfigurationOptions.MaxMessageSize)
-                {
-                    _logger.Error($"Cannot send message; message size {messageBody.Length} bytes exceeds configured maximum {_transportConfigurationOptions.MaxMessageSize} bytes");
-                    return Guid.Empty.ToString();
-                }
-
                 var basicProperties = new BasicProperties
                 {
                     CorrelationId = correlationId,
                     ContentType = typeof(T).AssemblyQualifiedName
                 };
 
+                _logger.Info($"[CorrelationId={correlationId}] " +
+                             $"[Queue={_queueConfigurationOptions.QueueName}] " +
+                             $"[MessageText=Message Sent:{Encoding.Default.GetString(messageBody)}]");
+
                 _channel.BasicPublish(
                     exchange: "",
-                    routingKey: _transportConfigurationOptions.QueueName,
+                    routingKey: _queueConfigurationOptions.QueueName,
                     basicProperties: basicProperties,
                     body: messageBody);
 
