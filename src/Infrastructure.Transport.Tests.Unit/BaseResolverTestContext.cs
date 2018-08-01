@@ -13,7 +13,7 @@ namespace Infrastructure.Transport.Tests.Unit
     internal class BaseResolverTestContext
     {
         protected readonly ServiceCollection Services;
-        protected readonly IConfigurationRoot Configuration;
+        protected IConfigurationRoot Configuration;
         protected IServiceProvider ServiceProvider;
         protected ITopology Topology;
         protected TransportConfigurationOptions TransportConfigurationOptions;
@@ -21,15 +21,26 @@ namespace Infrastructure.Transport.Tests.Unit
         public BaseResolverTestContext()
         {
             Services = new ServiceCollection();
-
-            Configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
         }
 
         public void ArrangeContainerConfiguration()
         {
+            Configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            Services
+                .Configure<TransportConfigurationOptions>(Configuration.GetSection("TransportConfigurationOptions"));
+        }
+
+        public void ArrangeContainerConfigurationNoProducers()
+        {
+            Configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.only-consumers.json")
+                .Build();
+
             Services
                 .Configure<TransportConfigurationOptions>(Configuration.GetSection("TransportConfigurationOptions"));
         }
@@ -43,7 +54,6 @@ namespace Infrastructure.Transport.Tests.Unit
             Assert.NotNull(TransportConfigurationOptions);
 
             Assert.Equal(2, Topology.GetConsumers().Count());
-            Assert.Equal(2, Topology.GetProducers().Count());
         }
 
         protected class MessageHandler : IMessageHandler

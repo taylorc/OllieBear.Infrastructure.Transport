@@ -22,13 +22,13 @@ namespace Infrastructure.Transport.RabbitMQ
             _consumers = new Dictionary<string, IConsumer>();
             _producers = new Dictionary<string, IProducer>();
 
-            foreach (var queue in transportConfigurationOptions.ConsumerQueues)
+            foreach (var queue in transportConfigurationOptions.ConsumerQueues ?? new List<QueueConfigurationItem>())
             {
                 var options = queue.Options;
                 _consumers.Add(queue.Key, consumerFunc(options));
             }
 
-            foreach (var queue in transportConfigurationOptions.ProducerQueues)
+            foreach (var queue in transportConfigurationOptions.ProducerQueues ?? new List<QueueConfigurationItem>())
             {
                 var options = queue.Options;
                 _producers.Add(queue.Key, producerFunc(options));

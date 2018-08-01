@@ -27,6 +27,14 @@ namespace Infrastructure.Transport.Tests.Unit
             _context.AssertResolved();
         }
 
+        [Fact]
+        public void Can_resolve_default_interfaces_sans_configuration_section()
+        {
+            _context.ArrangeContainerConfigurationNoProducers();
+            _context.ActInjectDependencies();
+            _context.AssertResolved();
+        }
+
         private class TestContext : BaseResolverTestContext
         {
             public void ActInjectDependencies()
