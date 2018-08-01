@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-				<PackageId>Vprc.Infrastructure.Transport.Interfaces</PackageId>
+				<PackageId>Vprc.Infrastructure.Transport.RabbitMQ</PackageId>
     <Authors>HSD</Authors>
     <Description>Transport RabbitMQ module</Description>
     <Copyright>Copyright © 2018</Copyright>
