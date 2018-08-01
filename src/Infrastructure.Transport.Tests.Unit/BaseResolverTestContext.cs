@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Infrastructure.Transport.Interfaces;
 using Infrastructure.Transport.Interfaces.Options;
+using Infrastructure.Transport.RabbitMQ;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
