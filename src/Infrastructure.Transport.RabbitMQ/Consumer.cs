@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Infrastructure.Logging;
 using Infrastructure.Serialization.Interfaces;
 using Infrastructure.Transport.Interfaces;
-using Microsoft.Extensions.Options;
+using Infrastructure.Transport.Interfaces.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -15,8 +15,7 @@ namespace Infrastructure.Transport.RabbitMQ
         private readonly IMessageHandler _messageHandler;
         private readonly ISerializer _serializer;
         private readonly ILog _logger;
-        private readonly TransportConfigurationOptions _transportConfigurationOptions;
-
+        private readonly QueueConfigurationOptions _queueConfigurationOptions;
         private readonly IModel _channel;
 
         public Consumer(
@@ -24,13 +23,13 @@ namespace Infrastructure.Transport.RabbitMQ
             ISerializer serializer,
             ILog logger,
             IChannelFactory channelFactory,
-            IOptions<TransportConfigurationOptions> transportConfigurationOptionsAccessor)
+            QueueConfigurationOptions queueConfigurationOptions)
         {
             _messageHandler = messageHandler;
             _serializer = serializer;
             _logger = logger;
-            _transportConfigurationOptions = transportConfigurationOptionsAccessor.Value;
-            _channel = channelFactory.CreateChannel();
+            _queueConfigurationOptions = queueConfigurationOptions;
+            _channel = channelFactory.CreateChannel(queueConfigurationOptions);
         }
 
         public Task StartConsuming()
@@ -43,7 +42,7 @@ namespace Infrastructure.Transport.RabbitMQ
 
                 var message = Encoding.Default.GetString(body);
                 _logger.Info($"[CorrelationId={properties.CorrelationId}] " +
-                             $"[Queue={_transportConfigurationOptions.QueueName}] " +
+                             $"[Queue={_queueConfigurationOptions.QueueName}] " +
                              $"[MessageText=Message Received:{message}]");
 
                 var deserializedType = Type.GetType(properties.ContentType);
@@ -59,7 +58,7 @@ namespace Infrastructure.Transport.RabbitMQ
             return Task.Run(() =>
             {
                 _channel.BasicConsume(
-                    queue: _transportConfigurationOptions.QueueName,
+                    queue: _queueConfigurationOptions.QueueName,
                     autoAck: true,
                     consumer: consumer);
             });

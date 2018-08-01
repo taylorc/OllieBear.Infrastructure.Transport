@@ -5,9 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Infrastructure.Logging" Version="1.0.0" />
-    <PackageReference Include="Infrastructure.Serialization.Interfaces" Version="1.0.0" />
+    <PackageReference Include="Vprc.Infrastructure.Logging" Version="0.0.0.1" />
+    <PackageReference Include="Vprc.Infrastructure.Serialization.Interfaces" Version="0.0.0.1" />
     <PackageReference Include="RabbitMQ.Client" Version="5.1.0" />
+	<PackageReference Include="Microsoft.Extensions.Options" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>

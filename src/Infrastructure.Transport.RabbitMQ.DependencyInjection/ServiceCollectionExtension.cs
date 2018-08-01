@@ -1,4 +1,6 @@
-﻿using Infrastructure.Transport.Interfaces;
+﻿using System;
+using Infrastructure.Transport.Interfaces;
+using Infrastructure.Transport.Interfaces.Options;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Transport.RabbitMQ.DependencyInjection
@@ -9,9 +11,15 @@ namespace Infrastructure.Transport.RabbitMQ.DependencyInjection
         {
             services.AddTransient<IChannelFactory, ChannelFactory>();
 
-            services.AddTransient<IConsumer, Consumer>();
+            services.AddSingleton<ITopology, Topology>();
 
-            services.AddTransient<IProducer, Producer>();
+            services.AddTransient<Func<QueueConfigurationOptions, IConsumer>>(
+                s =>
+                    q => ActivatorUtilities.CreateInstance<Consumer>(s, q));
+
+            services.AddTransient<Func<QueueConfigurationOptions, IProducer>>(
+                s =>
+                    q => ActivatorUtilities.CreateInstance<Producer>(s, q));
 
             return services;
         }
