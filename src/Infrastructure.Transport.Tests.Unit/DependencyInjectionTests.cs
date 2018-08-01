@@ -1,7 +1,9 @@
-﻿using Infrastructure.Logging.Serilog.DependencyInjection;
+﻿using System.Linq;
+using Infrastructure.Logging.Serilog.DependencyInjection;
 using Infrastructure.Serialization;
 using Infrastructure.Serialization.Interfaces;
 using Infrastructure.Transport.Interfaces;
+using Infrastructure.Transport.RabbitMQ;
 using Infrastructure.Transport.RabbitMQ.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -39,7 +41,18 @@ namespace Infrastructure.Transport.Tests.Unit
 
                 Services.AddRabbitMqService();
 
+                ReplaceChannelFactory(Services);
+
                 ServiceProvider = Services.BuildServiceProvider();
+            }
+
+            private static void ReplaceChannelFactory(ServiceCollection services)
+            {
+                var descriptor = services.First(s => s.ServiceType == typeof(IChannelFactory));
+
+                services.Remove(descriptor);
+
+                services.AddTransient<IChannelFactory, EmptyChannelFactory>();
             }
         }
     }
