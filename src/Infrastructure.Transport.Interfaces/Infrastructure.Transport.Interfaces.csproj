@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+			<PackageId>Vprc.Infrastructure.Transport.Interfaces</PackageId>
+    <Authors>HSD</Authors>
+    <Description>Transport Interfaces module</Description>
+    <Copyright>Copyright © 2018</Copyright>
   </PropertyGroup>
 
 </Project>

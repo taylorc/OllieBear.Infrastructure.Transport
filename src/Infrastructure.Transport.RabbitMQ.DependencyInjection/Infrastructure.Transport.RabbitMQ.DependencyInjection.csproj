@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+	<PackageId>Vprc.Infrastructure.Transport.RabbitMQ.DependencyInjection</PackageId>
+    <Authors>HSD</Authors>
+    <Description>Transport IoC RabbitMQ DependencyInjection extension</Description>
+    <Copyright>Copyright © 2018</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
