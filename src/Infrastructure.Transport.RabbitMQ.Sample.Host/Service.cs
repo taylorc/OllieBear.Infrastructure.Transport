@@ -10,8 +10,7 @@ namespace Infrastructure.Transport.RabbitMQ.Sample.Host
     {
         private readonly ITopology _topology;
 
-        public Service(
-            ITopology topology)
+        public Service(ITopology topology)
         {
             _topology = topology;
         }

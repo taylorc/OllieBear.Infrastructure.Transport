@@ -10,19 +10,17 @@ namespace Infrastructure.Transport.RabbitMQ.Sample.Host
     {
         public void Handle(object msg, Type type)
         {
-            var queueCommand = msg ;
-
-            if (queueCommand is BlueCommand)
+            if (msg is BlueCommand)
             {
-                var command = (BlueCommand)queueCommand;
+                var command = (BlueCommand)msg;
                 
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine($"Message received: {command.SampleInt}, {command.SampleDateTime}");
             }
 
-            if (queueCommand is GreenCommand)
+            if (msg is GreenCommand)
             {
-                var command = (GreenCommand)queueCommand;
+                var command = (GreenCommand)msg;
 
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"Message received: {command.SampleGuid}, {command.SampleString}");
