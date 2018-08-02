@@ -1,5 +1,4 @@
 ﻿using System;
-using Infrastructure.Logging;
 using Infrastructure.Logging.Extensions;
 using Infrastructure.Transport.Interfaces;
 using Infrastructure.Transport.RabbitMQ.Sample.Host.Definitions;
@@ -10,6 +9,11 @@ namespace Infrastructure.Transport.RabbitMQ.Sample.Host
     {
         public void Handle(object msg, Type type)
         {
+            if (msg is RedCommand)
+            {
+                throw new Exception("Red command throws exception");
+            }
+
             if (msg is BlueCommand)
             {
                 var command = (BlueCommand)msg;
@@ -29,7 +33,7 @@ namespace Infrastructure.Transport.RabbitMQ.Sample.Host
 
         public void HandleException(Exception exception)
         {
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(exception.DeepException());
         }
     }

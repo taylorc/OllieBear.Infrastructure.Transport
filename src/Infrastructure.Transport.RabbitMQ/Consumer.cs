@@ -37,22 +37,29 @@ namespace Infrastructure.Transport.RabbitMQ
             var consumer = new EventingBasicConsumer(_channel);
             consumer.Received += (model, ea) =>
             {
-                var body = ea.Body;
-                var properties = ea.BasicProperties;
+                try
+                {
+                    var body = ea.Body;
+                    var properties = ea.BasicProperties;
 
-                var message = Encoding.Default.GetString(body);
-                _logger.Info($"[CorrelationId={properties.CorrelationId}] " +
-                             $"[Queue={_queueConfigurationOptions.QueueName}] " +
-                             $"[MessageText=Message Received:{message}]");
+                    var message = Encoding.Default.GetString(body);
+                    _logger.Info($"[CorrelationId={properties.CorrelationId}] " +
+                                 $"[Queue={_queueConfigurationOptions.QueueName}] " +
+                                 $"[MessageText=Message Received:{message}]");
 
-                var deserializedType = Type.GetType(properties.ContentType);
+                    var deserializedType = Type.GetType(properties.ContentType);
 
-                if (deserializedType == null)
-                    throw new Exception($"Message type [{properties.ContentType}] not recognised by consumer");
+                    if (deserializedType == null)
+                        throw new Exception($"Message type [{properties.ContentType}] not recognised by consumer");
 
-                var deserializedObject = _serializer.DeserializeToType(body, deserializedType);
+                    var deserializedObject = _serializer.DeserializeToType(body, deserializedType);
 
-                _messageHandler.Handle(deserializedObject, deserializedType);
+                    _messageHandler.Handle(deserializedObject, deserializedType);
+                }
+                catch (Exception e)
+                {
+                    _messageHandler.HandleException(e);
+                }
             };
 
             return Task.Run(() =>

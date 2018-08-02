@@ -20,6 +20,8 @@ namespace Infrastructure.Transport.RabbitMQ.Sample.Host
             var blueProducer = _topology.GetProducer("TestQueueFirst");
             var greenProducer = _topology.GetProducer("TestQueueSecond");
 
+            blueProducer.Publish(new RedCommand());
+
             for (var i = 0; i < 5; i++)
             {
                 var testServiceBusCommand = new BlueCommand
@@ -30,7 +32,7 @@ namespace Infrastructure.Transport.RabbitMQ.Sample.Host
 
                 blueProducer.Publish(testServiceBusCommand);
             }
-
+            
             for (var i = 0; i < 2; i++)
             {
                 var testServiceBusCommand = new GreenCommand
