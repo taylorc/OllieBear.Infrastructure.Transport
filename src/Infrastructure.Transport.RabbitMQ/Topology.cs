@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Infrastructure.Transport.Interfaces;
 using Infrastructure.Transport.Interfaces.Options;
 using Microsoft.Extensions.Options;
@@ -11,37 +12,32 @@ namespace Infrastructure.Transport.RabbitMQ
         private readonly IDictionary<string, IConsumer> _consumers;
         private readonly IDictionary<string, IProducer> _producers;
 
+        private readonly Func<QueueConfigurationOptions, IConsumer> _consumerFunc;
+        private readonly Func<QueueConfigurationOptions, IProducer> _producerFunc;
+
+        private readonly TransportConfigurationOptions _options;
+
         public Topology(
             Func<QueueConfigurationOptions, IConsumer> consumerFunc,
             Func<QueueConfigurationOptions, IProducer> producerFunc,
-            IOptions<TransportConfigurationOptions> transportConfigurationOptionsAccessor
-            )
+            IOptions<TransportConfigurationOptions> transportConfigurationOptionsAccessor)
         {
-            var transportConfigurationOptions = transportConfigurationOptionsAccessor.Value;
-
             _consumers = new Dictionary<string, IConsumer>();
             _producers = new Dictionary<string, IProducer>();
 
-            foreach (var queue in transportConfigurationOptions.ConsumerQueues ?? new List<QueueConfigurationItem>())
-            {
-                var options = queue.Options;
-                _consumers.Add(queue.Key, consumerFunc(options));
-            }
+            _consumerFunc = consumerFunc;
+            _producerFunc = producerFunc;
 
-            foreach (var queue in transportConfigurationOptions.ProducerQueues ?? new List<QueueConfigurationItem>())
-            {
-                var options = queue.Options;
-                _producers.Add(queue.Key, producerFunc(options));
-            }
+            _options = transportConfigurationOptionsAccessor.Value;
         }
+        
+        public IConsumer GetConsumer(string key) => _consumers.ContainsKey(key) ? _consumers[key] : RegisterConsumer(key);
 
-        public IConsumer GetConsumer(string key) => _consumers[key];
+        public IProducer GetProducer(string key) => _producers.ContainsKey(key) ? _producers[key] : RegisterProducer(key);
 
-        public IProducer GetProducer(string key) => _producers[key];
+        public IEnumerable<IConsumer> GetConsumers() => ConsumerKeys.Select(GetConsumer);
 
-        public IEnumerable<IConsumer> GetConsumers() => _consumers.Values;
-
-        public IEnumerable<IProducer> GetProducers() => _producers.Values;
+        public IEnumerable<IProducer> GetProducers() => ProducerKeys.Select(GetProducer);
 
         public void Dispose()
         {
@@ -54,6 +50,42 @@ namespace Infrastructure.Transport.RabbitMQ
             {
                 producer?.Dispose();
             }
+        }
+
+        private IEnumerable<string> ConsumerKeys => _options.ConsumerQueues.Select(q => q.Key);
+
+        private IEnumerable<string> ProducerKeys => _options.ProducerQueues.Select(q => q.Key);
+
+        private IConsumer RegisterConsumer(string key)
+        {
+            var configuration = 
+                _options
+                    .ConsumerQueues
+                    .FirstOrDefault(q => q.Key == key);
+
+            if (configuration == null)
+                throw new Exception($"No consumer queue configuration found in appsettings with key [{key}]");
+
+            var consumer = _consumerFunc(configuration.Options);
+            _consumers.Add(key, consumer);
+
+            return consumer;
+        }
+
+        private IProducer RegisterProducer(string key)
+        {
+            var configuration = 
+                _options
+                    .ProducerQueues
+                    .FirstOrDefault(q => q.Key == key);
+
+            if (configuration == null)
+                throw new Exception($"No producer queue configuration found in appsettings with key [{key}]");
+
+            var producer = _producerFunc(configuration.Options);
+            _producers.Add(key, producer);
+
+            return producer;
         }
     }
 }

@@ -44,6 +44,17 @@ namespace Infrastructure.Transport.RabbitMQ.Sample.Host
                 greenProducer.Publish(testServiceBusCommand);
             }
 
+            for (var i = 0; i < 2; i++)
+            {
+                var testServiceBusCommand = new YellowCommand
+                {
+                    SampleGuid = Guid.NewGuid(),
+                    SampleString = "Test (YELLOW) String"
+                };
+
+                greenProducer.Publish(testServiceBusCommand);
+            }
+
             Thread.Sleep(2000);
 
             foreach (var consumer in _topology.GetConsumers())

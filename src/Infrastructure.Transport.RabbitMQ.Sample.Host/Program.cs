@@ -36,7 +36,8 @@ namespace Infrastructure.Transport.RabbitMQ.Sample.Host
                 .AddTransient<ISerializer, SerializerJson>();
 
             services
-                .AddSingleton<IMessageHandler, MessageHandler>();
+                .AddSingleton<IMessageHandler, MessageHandler>()
+                .AddSingleton<IRecursiveHandler, RecursiveHandler>();
 
             services
                 .AddRabbitMqService();
