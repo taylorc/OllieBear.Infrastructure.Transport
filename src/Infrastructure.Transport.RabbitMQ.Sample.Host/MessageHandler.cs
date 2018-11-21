@@ -7,6 +7,13 @@ namespace Infrastructure.Transport.RabbitMQ.Sample.Host
 {
     internal class MessageHandler : IMessageHandler
     {
+        private readonly IRecursiveHandler _recursiveHandler;
+
+        public MessageHandler(IRecursiveHandler recursiveHandler)
+        {
+            _recursiveHandler = recursiveHandler;
+        }
+
         public void Handle(object msg, Type type)
         {
             if (msg is RedCommand)
@@ -28,6 +35,14 @@ namespace Infrastructure.Transport.RabbitMQ.Sample.Host
 
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"Message received: {command.SampleGuid}, {command.SampleString}");
+            }
+
+            if (msg is YellowCommand)
+            {
+                var command = (YellowCommand) msg;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"Message received: {command.SampleGuid}, {command.SampleString}");
+                _recursiveHandler.Handle(command);
             }
         }
 

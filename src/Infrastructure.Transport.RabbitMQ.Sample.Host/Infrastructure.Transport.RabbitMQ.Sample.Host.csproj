@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -19,7 +19,6 @@
     <PackageReference Include="Vprc.Infrastructure.Logging.Serilog.DependencyInjection" Version="0.0.0.1" />
     <PackageReference Include="Vprc.Infrastructure.Serialization" Version="0.0.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
-	<PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.1.1" />
   </ItemGroup>
@@ -28,7 +27,5 @@
     <ProjectReference Include="..\Infrastructure.Transport.Interfaces\Infrastructure.Transport.Interfaces.csproj" />
     <ProjectReference Include="..\Infrastructure.Transport.RabbitMQ.DependencyInjection\Infrastructure.Transport.RabbitMQ.DependencyInjection.csproj" />
   </ItemGroup>
-
-  
 
 </Project>
