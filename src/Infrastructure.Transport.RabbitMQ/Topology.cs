@@ -35,9 +35,9 @@ namespace Infrastructure.Transport.RabbitMQ
 
         public IProducer GetProducer(string key) => _producers.ContainsKey(key) ? _producers[key] : RegisterProducer(key);
 
-        public IEnumerable<IConsumer> GetConsumers() => ConsumerKeys.Select(GetConsumer);
+        public IEnumerable<IConsumer> GetConsumers() => ConsumerKeys?.Select(GetConsumer) ?? new List<IConsumer>();
 
-        public IEnumerable<IProducer> GetProducers() => ProducerKeys.Select(GetProducer);
+        public IEnumerable<IProducer> GetProducers() => ProducerKeys?.Select(GetProducer) ?? new List<IProducer>();
 
         public void Dispose()
         {
@@ -52,15 +52,15 @@ namespace Infrastructure.Transport.RabbitMQ
             }
         }
 
-        private IEnumerable<string> ConsumerKeys => _options.ConsumerQueues.Select(q => q.Key);
+        private IEnumerable<string> ConsumerKeys => _options.ConsumerQueues?.Select(q => q.Key);
 
-        private IEnumerable<string> ProducerKeys => _options.ProducerQueues.Select(q => q.Key);
+        private IEnumerable<string> ProducerKeys => _options.ProducerQueues?.Select(q => q.Key);
 
         private IConsumer RegisterConsumer(string key)
         {
             var configuration = 
                 _options
-                    .ConsumerQueues
+                    .ConsumerQueues?
                     .FirstOrDefault(q => q.Key == key);
 
             if (configuration == null)
@@ -76,7 +76,7 @@ namespace Infrastructure.Transport.RabbitMQ
         {
             var configuration = 
                 _options
-                    .ProducerQueues
+                    .ProducerQueues?
                     .FirstOrDefault(q => q.Key == key);
 
             if (configuration == null)
