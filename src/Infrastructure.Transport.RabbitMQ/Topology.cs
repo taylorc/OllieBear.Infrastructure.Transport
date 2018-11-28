@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Infrastructure.Transport.Interfaces;
 using Infrastructure.Transport.Interfaces.Options;
 using Microsoft.Extensions.Options;
@@ -22,8 +24,8 @@ namespace Infrastructure.Transport.RabbitMQ
             Func<QueueConfigurationOptions, IProducer> producerFunc,
             IOptions<TransportConfigurationOptions> transportConfigurationOptionsAccessor)
         {
-            _consumers = new Dictionary<string, IConsumer>();
-            _producers = new Dictionary<string, IProducer>();
+            _consumers = new ConcurrentDictionary<string, IConsumer>();
+            _producers = new ConcurrentDictionary<string, IProducer>();
 
             _consumerFunc = consumerFunc;
             _producerFunc = producerFunc;
@@ -58,34 +60,48 @@ namespace Infrastructure.Transport.RabbitMQ
 
         private IConsumer RegisterConsumer(string key)
         {
-            var configuration = 
-                _options
-                    .ConsumerQueues?
-                    .FirstOrDefault(q => q.Key == key);
+            lock (_consumers)
+            {
+                if (_consumers.TryGetValue(key, out var consumer))
+                    return consumer;
 
-            if (configuration == null)
-                throw new Exception($"No consumer queue configuration found in appsettings with key [{key}]");
+                var configuration =
+                    _options
+                        .ConsumerQueues?
+                        .FirstOrDefault(q => q.Key == key);
 
-            var consumer = _consumerFunc(configuration.Options);
-            _consumers.Add(key, consumer);
+                if (configuration == null)
+                    throw new Exception($"No consumer queue configuration found in appsettings with key [{key}]");
 
-            return consumer;
+                consumer = _consumerFunc(configuration.Options);
+
+                _consumers.Add(key, consumer);
+
+                return consumer;
+            }
         }
 
         private IProducer RegisterProducer(string key)
         {
-            var configuration = 
-                _options
-                    .ProducerQueues?
-                    .FirstOrDefault(q => q.Key == key);
+            lock (_producers)
+            {
+                if (_producers.TryGetValue(key, out var producer))
+                    return producer;
 
-            if (configuration == null)
-                throw new Exception($"No producer queue configuration found in appsettings with key [{key}]");
+                var configuration =
+                    _options
+                        .ProducerQueues?
+                        .FirstOrDefault(q => q.Key == key);
 
-            var producer = _producerFunc(configuration.Options);
-            _producers.Add(key, producer);
+                if (configuration == null)
+                    throw new Exception($"No producer queue configuration found in appsettings with key [{key}]");
 
-            return producer;
+                producer = _producerFunc(configuration.Options);
+
+                _producers.Add(key, producer);
+
+                return producer;
+            }
         }
     }
 }
