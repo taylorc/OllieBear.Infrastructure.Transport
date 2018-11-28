@@ -30,7 +30,8 @@ namespace Infrastructure.Transport.RabbitMQ.Sample.Host
                 .AddSerilogLogging();
 
             services
-                .AddTransient<IService, Service>();
+                .AddTransient<IService, Service>()
+                .AddTransient<IConcurrentService, ConcurrentService>();
 
             services
                 .AddTransient<ISerializer, SerializerJson>();
@@ -46,7 +47,11 @@ namespace Infrastructure.Transport.RabbitMQ.Sample.Host
 
             var service = serviceProvider.GetService<IService>();
 
+            var concurrentService = serviceProvider.GetService<IConcurrentService>();
+
             service.Start();
+
+            concurrentService.ResolveProducersConcurrently();
 
             Console.ReadKey();
         }
