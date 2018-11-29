@@ -11,8 +11,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Vprc.Infrastructure.Logging" Version="0.0.0.1" />
-    <PackageReference Include="Vprc.Infrastructure.Serialization.Interfaces" Version="0.0.0.1" />
+    <PackageReference Include="Vprc.Infrastructure.Logging" Version="0.0.0.12" />
+    <PackageReference Include="Vprc.Infrastructure.Serialization.Interfaces" Version="0.0.0.2" />
     <PackageReference Include="RabbitMQ.Client" Version="5.1.0" />
 	<PackageReference Include="Microsoft.Extensions.Options" Version="2.1.1" />
   </ItemGroup>
