@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Vprc.Infrastructure.Logging.Serilog.DependencyInjection" Version="0.0.0.1" />
-    <PackageReference Include="Vprc.Infrastructure.Serialization" Version="0.0.0.1" />
+    <PackageReference Include="Vprc.Infrastructure.Logging.Serilog.DependencyInjection" Version="0.0.0.12" />
+    <PackageReference Include="Vprc.Infrastructure.Serialization" Version="0.0.0.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.1.1" />
