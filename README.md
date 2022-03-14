@@ -64,6 +64,9 @@ You will define a series of keyed *consumer* and *producer* queues in the config
     ]
   }
 ```
+>For Azure Service Bus only the TransportConfigurationOptions --> HostName, Producers and Consumers need to be populated. The HostName is the ConnectionString.
+
+----------
 
 ### Resolving the consumer / producer
 Use the defined keys to retrieve the applicable channel i.e.
