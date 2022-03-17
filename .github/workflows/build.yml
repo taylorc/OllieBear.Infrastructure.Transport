@@ -25,7 +25,7 @@ jobs:
       run: dotnet restore .\src\Infrastructure.Transport.AzureServiceBus\Infrastructure.Transport.AzureServiceBus.csproj
     - name: Install dependencies Infrastructure.Transport.AzureServiceBus.DependencyInjection
       run: dotnet restore .\src\Infrastructure.Transport.AzureServiceBus.DependencyInjection\Infrastructure.Transport.AzureServiceBus.DependencyInjection.csproj
-     - name: Install dependencies Infrastructure.Transport.RabbitMQ
+    - name: Install dependencies Infrastructure.Transport.RabbitMQ
       run: dotnet restore .\src\Infrastructure.Transport.RabbitMQ\Infrastructure.Transport.RabbitMQ.csproj
     - name: Install dependencies Infrastructure.Transport.RabbitMQ.DependencyInjection
       run: dotnet restore .\src\Infrastructure.Transport.RabbitMQ.DependencyInjection\Infrastructure.Transport.RabbitMQ.DependencyInjection.csproj
