@@ -1,0 +1,26 @@
+name: publish OllieBear.Infrastructure.Transport.RabbitMQ.DependencyInjection to nuget
+
+on:
+  push:
+    branches:
+      - main # Your default release branch
+    paths:
+      - 'src/Infrastructure.Transport.RabbitMQ.DependencyInjection/**'
+jobs:
+  build:
+    name: list OllieBear.Infrastructure.Transport.RabbitMQ.DependencyInjection on nuget.org
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore OllieBear.Infrastructure.Transport.RabbitMQ.DependencyInjection project dependencies
+      run: dotnet restore src/Infrastructure.Transport.RabbitMQ.DependencyInjection/Infrastructure.Transport.RabbitMQ.DependencyInjection.csproj
+    - name: Build OllieBear.Infrastructure.Transport.RabbitMQ.DependencyInjection project
+      run: dotnet build src/Infrastructure.Transport.RabbitMQ.DependencyInjection/Infrastructure.Transport.RabbitMQ.DependencyInjection.csproj --no-restore --configuration Release
+    - name: Pack OllieBear.Infrastructure.Transport.RabbitMQ.DependencyInjection project
+      run: dotnet pack src/Infrastructure.Transport.RabbitMQ.DependencyInjection/Infrastructure.Transport.RabbitMQ.DependencyInjection.csproj --no-build --configuration Release --include-symbols -p:SymbolPackageFormat=snupkg -o .
+    - name: Publish OllieBear.Infrastructure.Transport.RabbitMQ.DependencyInjection package to NuGet
+      run: dotnet nuget push *.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate

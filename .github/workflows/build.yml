@@ -1,0 +1,41 @@
+name: .NET Core
+
+on:
+  workflow_dispatch:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+          dotnet-version: '6.0.x'
+    - name: Install dependencies Transport.Interfaces
+      run: dotnet restore .\src\Infrastructure.Transport.Interfaces\Infrastructure.Transport.Interfaces.csproj
+    - name: Install dependencies Infrastructure.Transport.AzureServiceBus
+      run: dotnet restore .\src\Infrastructure.Transport.AzureServiceBus\Infrastructure.Transport.AzureServiceBus.csproj
+    - name: Install dependencies Infrastructure.Transport.AzureServiceBus.DependencyInjection
+      run: dotnet restore .\src\Infrastructure.Transport.AzureServiceBus.DependencyInjection\Infrastructure.Transport.AzureServiceBus.DependencyInjection.csproj
+     - name: Install dependencies Infrastructure.Transport.RabbitMQ
+      run: dotnet restore .\src\Infrastructure.Transport.RabbitMQ\Infrastructure.Transport.RabbitMQ.csproj
+    - name: Install dependencies Infrastructure.Transport.RabbitMQ.DependencyInjection
+      run: dotnet restore .\src\Infrastructure.Transport.RabbitMQ.DependencyInjection\Infrastructure.Transport.RabbitMQ.DependencyInjection.csproj
+    - name: Build Transport.Interfaces
+      run: dotnet build .\src\Infrastructure.Transport.Interfaces\Infrastructure.Transport.Interfaces.csproj --configuration Release --no-restore
+    - name: Build Transport.AzureServiceBus
+      run: dotnet build .\src\Infrastructure.Transport.AzureServiceBus\Infrastructure.Transport.AzureServiceBus.csproj --configuration Release --no-restore
+    - name: Build Transport.AzureServiceBus.DependencyInjection
+      run: dotnet build .\src\Infrastructure.Transport.AzureServiceBus.DependencyInjection\Infrastructure.Transport.AzureServiceBus.DependencyInjection.csproj --configuration Release --no-restore
+    - name: Build Transport.RabbitMQ
+      run: dotnet build .\src\Infrastructure.Transport.RabbitMQ\Infrastructure.Transport.RabbitMQ.csproj --configuration Release --no-restore
+    - name: Build Transport.RabbitMQ.DependencyInjection
+      run: dotnet build .\src\Infrastructure.Transport.RabbitMQ.DependencyInjection\Infrastructure.Transport.RabbitMQ.DependencyInjection.csproj --configuration Release --no-restore
