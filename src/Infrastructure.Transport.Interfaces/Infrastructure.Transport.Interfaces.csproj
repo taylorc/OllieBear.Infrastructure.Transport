@@ -6,6 +6,7 @@
     <Authors>HSD</Authors>
     <Description>Transport Interfaces module</Description>
     <Copyright>Copyright © 2018</Copyright>
+	  <Version>2.0.0.1</Version>
   </PropertyGroup>
 
 </Project>
