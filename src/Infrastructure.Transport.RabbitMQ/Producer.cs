@@ -34,13 +34,11 @@ namespace Infrastructure.Transport.RabbitMQ
             try
             {
                 var correlationId = Guid.NewGuid().ToString();
-                var messageBody = _serializer.ToPayload(msg);
+                var messageBody = _serializer.ToByteArrayPayload(msg);
 
-                var basicProperties = new BasicProperties
-                {
-                    CorrelationId = correlationId,
-                    ContentType = typeof(T).AssemblyQualifiedName
-                };
+                var basicProperties = _channel.CreateBasicProperties();
+                basicProperties.CorrelationId = correlationId;
+                basicProperties.ContentType = typeof(T).AssemblyQualifiedName;
 
                 _logger.Info($"[CorrelationId={correlationId}] " +
                              $"[Queue={_queueConfigurationOptions.QueueName}] " +

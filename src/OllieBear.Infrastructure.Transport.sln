@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Transport.Interfaces", "Infrastructure.Transport.Interfaces\Infrastructure.Transport.Interfaces.csproj", "{19DEA1B0-0460-4B57-9D75-7C5055D03160}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Transport.RabbitMQ", "Infrastructure.Transport.RabbitMQ\Infrastructure.Transport.RabbitMQ.csproj", "{76731C7C-E439-47C3-BF66-D3A312EAD274}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Transport.RabbitMQ.DependencyInjection", "Infrastructure.Transport.RabbitMQ.DependencyInjection\Infrastructure.Transport.RabbitMQ.DependencyInjection.csproj", "{1C1119E6-A845-4EEA-AF74-6D16CAFCBF11}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Transport.RabbitMQ.Sample.Host", "Infrastructure.Transport.RabbitMQ.Sample.Host\Infrastructure.Transport.RabbitMQ.Sample.Host.csproj", "{3176D3F5-3C2B-41D6-99C7-C4566090BAC2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Transport.Tests.Unit", "Infrastructure.Transport.Tests.Unit\Infrastructure.Transport.Tests.Unit.csproj", "{BF6D2E99-B8B7-4B70-B291-B41D306829EA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Transport.AzureServiceBus", "Infrastructure.Transport.AzureServiceBus\Infrastructure.Transport.AzureServiceBus.csproj", "{61431629-43FA-4A1C-8387-3A7363762273}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Transport.AzureServiceBus.DependencyInjection", "Infrastructure.Transport.AzureServiceBus.DependencyInjection\Infrastructure.Transport.AzureServiceBus.DependencyInjection.csproj", "{FB1D0228-533E-4288-85AB-D4C708E4C79F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Transport.AzureServiceBus.Sample.Host", "Infrastructure.Transport.AzureServiceBus.Sample.Host\Infrastructure.Transport.AzureServiceBus.Sample.Host.csproj", "{D849F68C-69FE-4EC2-AC6D-46BC648AC941}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19DEA1B0-0460-4B57-9D75-7C5055D03160}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19DEA1B0-0460-4B57-9D75-7C5055D03160}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19DEA1B0-0460-4B57-9D75-7C5055D03160}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19DEA1B0-0460-4B57-9D75-7C5055D03160}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76731C7C-E439-47C3-BF66-D3A312EAD274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76731C7C-E439-47C3-BF66-D3A312EAD274}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76731C7C-E439-47C3-BF66-D3A312EAD274}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76731C7C-E439-47C3-BF66-D3A312EAD274}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C1119E6-A845-4EEA-AF74-6D16CAFCBF11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C1119E6-A845-4EEA-AF74-6D16CAFCBF11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C1119E6-A845-4EEA-AF74-6D16CAFCBF11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C1119E6-A845-4EEA-AF74-6D16CAFCBF11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3176D3F5-3C2B-41D6-99C7-C4566090BAC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3176D3F5-3C2B-41D6-99C7-C4566090BAC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3176D3F5-3C2B-41D6-99C7-C4566090BAC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3176D3F5-3C2B-41D6-99C7-C4566090BAC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF6D2E99-B8B7-4B70-B291-B41D306829EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF6D2E99-B8B7-4B70-B291-B41D306829EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF6D2E99-B8B7-4B70-B291-B41D306829EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF6D2E99-B8B7-4B70-B291-B41D306829EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61431629-43FA-4A1C-8387-3A7363762273}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61431629-43FA-4A1C-8387-3A7363762273}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61431629-43FA-4A1C-8387-3A7363762273}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61431629-43FA-4A1C-8387-3A7363762273}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB1D0228-533E-4288-85AB-D4C708E4C79F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB1D0228-533E-4288-85AB-D4C708E4C79F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB1D0228-533E-4288-85AB-D4C708E4C79F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB1D0228-533E-4288-85AB-D4C708E4C79F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D849F68C-69FE-4EC2-AC6D-46BC648AC941}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D849F68C-69FE-4EC2-AC6D-46BC648AC941}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D849F68C-69FE-4EC2-AC6D-46BC648AC941}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D849F68C-69FE-4EC2-AC6D-46BC648AC941}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1DBEEF1A-7928-45B0-B70C-CF1578806362}
+	EndGlobalSection
+EndGlobal

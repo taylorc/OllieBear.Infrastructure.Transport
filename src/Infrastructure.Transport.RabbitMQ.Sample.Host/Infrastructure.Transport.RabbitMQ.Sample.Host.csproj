@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,11 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Vprc.Infrastructure.Logging.Serilog.DependencyInjection" Version="0.0.0.12" />
-    <PackageReference Include="Vprc.Infrastructure.Serialization" Version="0.0.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
+    <PackageReference Include="OllieBear.Infrastructure.Logging.Serilog.DependencyInjection" Version="0.0.0.1" />
+    <PackageReference Include="OllieBear.Infrastructure.Serialization" Version="2.0.0.2" />
   </ItemGroup>
 
   <ItemGroup>

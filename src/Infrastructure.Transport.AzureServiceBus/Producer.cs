@@ -36,7 +36,7 @@ namespace Infrastructure.Transport.AzureServiceBus
             try
             {
                 var correlationId = Guid.NewGuid().ToString();
-                var messageBody = _serializer.ToPayload(msg);
+                var messageBody = _serializer.ToByteArrayPayload(msg);
 
                 var message = new ServiceBusMessage
                 {

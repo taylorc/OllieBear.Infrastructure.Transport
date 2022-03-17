@@ -42,7 +42,7 @@ namespace Infrastructure.Transport.RabbitMQ
                     var body = ea.Body;
                     var properties = ea.BasicProperties;
 
-                    var message = Encoding.Default.GetString(body);
+                    var message = Encoding.Default.GetString(body.ToArray());
                     _logger.Info($"[CorrelationId={properties.CorrelationId}] " +
                                  $"[Queue={_queueConfigurationOptions.QueueName}] " +
                                  $"[MessageText=Message Received:{message}]");
@@ -52,7 +52,7 @@ namespace Infrastructure.Transport.RabbitMQ
                     if (deserializedType == null)
                         throw new Exception($"Message type [{properties.ContentType}] not recognised by consumer");
 
-                    var deserializedObject = _serializer.DeserializeToType(body, deserializedType);
+                    var deserializedObject = _serializer.DeserializeToType(body.ToArray(), deserializedType);
 
                     _messageHandler.Handle(deserializedObject, deserializedType);
                 }

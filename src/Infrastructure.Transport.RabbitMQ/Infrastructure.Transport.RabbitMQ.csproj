@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
 				<PackageId>Vprc.Infrastructure.Transport.RabbitMQ</PackageId>
     <Authors>HSD</Authors>
     <Description>Transport RabbitMQ module</Description>
@@ -9,10 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Vprc.Infrastructure.Logging" Version="0.0.0.12" />
-    <PackageReference Include="Vprc.Infrastructure.Serialization.Interfaces" Version="0.0.0.2" />
-    <PackageReference Include="RabbitMQ.Client" Version="5.1.0" />
-	<PackageReference Include="Microsoft.Extensions.Options" Version="2.1.1" />
+    <PackageReference Include="OllieBear.Infrastructure.Logging" Version="0.0.0.7" />
+    <PackageReference Include="OllieBear.Infrastructure.Serialization.Interfaces" Version="2.0.0.2" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.2.4" />
+	<PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
