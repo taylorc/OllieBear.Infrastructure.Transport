@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <PackageId>OllieBear.Infrastructure.Transport.AzureServiceBus</PackageId>
+    <Authors>HSD</Authors>
+    <Description>Transport AzureServiceBus module</Description>
+    <Copyright>Copyright © 2022</Copyright>
+	  <Version>0.0.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
