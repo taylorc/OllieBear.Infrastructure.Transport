@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Net.Http.Headers;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Threading.Tasks;
 using Azure.Messaging.ServiceBus;
 using Infrastructure.Logging;
 using Infrastructure.Serialization.Interfaces;
 using Infrastructure.Transport.Interfaces;
 using Infrastructure.Transport.Interfaces.Options;
-using Microsoft.Azure.Amqp.Framing;
 
 namespace Infrastructure.Transport.AzureServiceBus
 {
